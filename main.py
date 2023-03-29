@@ -36,18 +36,18 @@ def adams5(f, y0, x0, h, X):
 # надо выводить точное
 
 def f(x, y):
-    return x**3+x+3*y/x
-    #x**3+x+3*y/x #2*x*y/(x**2+y**2) филиппов 106#
+    return -2*x*y**2/(x**2-1)
+    #-2*x*y**2/(x**2-1) #x**3+x+3*y/x #2*x*y/(x**2+y**2) филиппов 106#
 
 
 def func(x): #точная функция
-    return x**4-x**2+2*abs(x)**3 #
-    #x**4-x^2+2*abs(x)^3 #x**2-y**2=y филиппов 106#
+    return 2-3*math.cos(x)
+    #2-3*math.cos(x) #x**4-x**2+2*abs(x)**3 #x**2-y**2=y филиппов 106#
 
 
-x_values, y_values = adams5(f, 2, -1, 0.1, 0)
-#adams5(f, 2, -1, 0.1, 0) #adams5(f, -1, 0, 0.1, 2) филиппов 106#
-x_values_h2, y_values_h2 = adams5(f, 2, -1, 0.1/2, 0) #шаг h/2
+x_values, y_values = adams5(f, 5, 3.14, 0.1, 4)
+#adams5(f, 1, 0, 0.1, 2) #adams5(f, 2, -1, 0.1, 0) #adams5(f, -1, 0, 0.1, 2) филиппов 106
+x_values_h2, y_values_h2 = adams5(f, 5, 3.14, 0.1/2, 4) #шаг h/2
 y_values_h2_toch = []
 for i in x_values_h2: #точное с шагом h2
     y_values_h2_toch.append(func(i))
