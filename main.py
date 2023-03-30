@@ -36,18 +36,18 @@ def adams5(f, y0, x0, h, X):
 # надо выводить точное
 
 def f(x, y):
-    return y+2*x-3
-    #-2*x*y**2/(x**2-1) #(4-x*y-x**2*y**2)/x**2 Риккати Филиппов 167 # y+2x-3
+    return y/x+x*math.cos(x)
+    #-2*x*y**2/(x**2-1) #(4-x*y-x**2*y**2)/x**2 Риккати Филиппов 167 #
 
 
 def func(x): #точная функция
-    return pow(math.e, x)-2*x+1
-    #2-3*math.cos(x) #2/x + 4/(x**5-x) Риккати Филиппов 167  #pow(math.e, x)-2*x+1
+    return x+x*math.sin(x)
+    #2-3*math.cos(x) #2/x + 4/(x**5-x) Риккати Филиппов 167  #
 
 
-x_values, y_values = adams5(f, 2, 0, 0.1, 4)
-#adams5(f, 5, 3.14, 0.1, 4) #adams5(f, 1.98, 1.5, 0.1, 4) #adams5(f, 2, 0, 0.1, 4)
-x_values_h2, y_values_h2 = adams5(f, 2, 0, 0.05, 4) #шаг h/2
+x_values, y_values = adams5(f, 0.11, 0.1, 0.5, 4.5)
+#adams5(f, 1.98, 1.5, 0.1, 4) #adams5(f, 2, 0, 0.1, 4)
+x_values_h2, y_values_h2 = adams5(f, 0.11, 0.1, 0.25, 4.5) #шаг h/2
 y_values_h2_toch = []
 y_values_h_toch =[]
 for i in x_values_h2: #точное с шагом h2
@@ -75,3 +75,4 @@ with open('answer.csv', 'w', newline='') as csvfile:
     for i in range(len(x_values)):
         writer.writerow({'x_h': x_values[i], 'y_adams_h': y_values[i], 'y_toch_h': y_values_h_toch[i],
                          'delta_h': abs(y_values[i]- y_values_h_toch[i])})
+
