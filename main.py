@@ -36,21 +36,25 @@ def adams5(f, y0, x0, h, X):
 # надо выводить точное
 
 def f(x, y):
-    return (4-x*y-x**2*y**2)/x**2
-    #-2*x*y**2/(x**2-1) #Риккати Филиппов 167 #
+    return y+2*x-3
+    #-2*x*y**2/(x**2-1) #(4-x*y-x**2*y**2)/x**2 Риккати Филиппов 167 # y+2x-3
 
 
 def func(x): #точная функция
-    return 2/x + 4/(x**5-x)
-    #2-3*math.cos(x) #Риккати Филиппов 167  #
+    return pow(math.e, x)-2*x+1
+    #2-3*math.cos(x) #2/x + 4/(x**5-x) Риккати Филиппов 167  #pow(math.e, x)-2*x+1
 
 
-x_values, y_values = adams5(f, 1.98, 1.5, 0.1, 4)
-#adams5(f, 1, 0, 0.1, 2) #adams5(f,) #
-x_values_h2, y_values_h2 = adams5(f, 1.98, 1.5, 0.1/2, 4) #шаг h/2
+x_values, y_values = adams5(f, 2, 0, 0.1, 4)
+#adams5(f, 5, 3.14, 0.1, 4) #adams5(f, 1.98, 1.5, 0.1, 4) #adams5(f, 2, 0, 0.1, 4)
+x_values_h2, y_values_h2 = adams5(f, 2, 0, 0.05, 4) #шаг h/2
 y_values_h2_toch = []
+y_values_h_toch =[]
 for i in x_values_h2: #точное с шагом h2
     y_values_h2_toch.append(func(i))
+
+for i in x_values: #точное с шагом h2
+    y_values_h_toch.append(func(i))
 
 
 print("Решение уравнения")
@@ -62,10 +66,12 @@ for x, y in zip(x_values_h2, y_values_h2):
 
 
 with open('answer.csv', 'w', newline='') as csvfile:
-    fieldnames = ['x_h/2', 'y_tochnoe_h/2', 'y_adams_h/2', 'x_h', 'y_adams_h']
+    fieldnames = ['x_h/2', 'y_tochnoe_h/2', 'y_adams_h/2', 'delta_h/2', 'x_h', 'y_adams_h', 'y_toch_h', 'delta_h']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     for i in range(len(x_values_h2)):
-        writer.writerow({'x_h/2': x_values_h2[i], 'y_tochnoe_h/2': y_values_h2_toch[i], 'y_adams_h/2': y_values_h2[i]})
+        writer.writerow({'x_h/2': x_values_h2[i], 'y_tochnoe_h/2': y_values_h2_toch[i], 'y_adams_h/2': y_values_h2[i],
+                         'delta_h/2': abs(y_values_h2_toch[i]-y_values_h2[i])})
     for i in range(len(x_values)):
-        writer.writerow({'x_h': x_values[i], 'y_adams_h': y_values[i]})
+        writer.writerow({'x_h': x_values[i], 'y_adams_h': y_values[i], 'y_toch_h': y_values_h_toch[i],
+                         'delta_h': abs(y_values[i]- y_values_h_toch[i])})
